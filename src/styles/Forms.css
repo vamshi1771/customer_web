@@ -1,0 +1,14 @@
+.PostCustomerForm,.PostOrderForm {
+    display: 'grid';
+    grid-template-columns: "1fr 1fr";
+    grid-template-rows: "1fr 1fr";
+    gap: '50px';
+    font-weight: '500';
+    font-size: 'large';
+    margin-top: '50px';
+}
+
+.PostCustomerButton,.PostOrderButton{
+    display: 'block';
+     align-Self: 'center';
+}
