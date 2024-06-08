@@ -1,0 +1,4 @@
+.container  #inputform{
+    display: flex;
+    flex-direction: row;
+}
