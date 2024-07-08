@@ -9,9 +9,17 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 
 
+// const forms =()=>{
 
+//   return (
+//     <>
 
-function Forms(Props) {
+//     </>
+//   )
+// }
+//  export default forms;
+
+function Forms({id, data}) {
 
   const [CustomerName, setCustomerName] = useState("");
   const [CustomerId, setCustomerId] = useState("");
@@ -20,6 +28,7 @@ function Forms(Props) {
 
 
   const [Open, setOpen] = useState(false);
+
   function handleSubmit(event) {
     event.preventDefault()
 
@@ -62,6 +71,7 @@ function Forms(Props) {
 
 
   const handleNameChange = (e) => {
+    console.log("event",e);
     const search = e.target.value;
     const ans = search.trim();
     const str = ans.split(" ");
@@ -83,7 +93,7 @@ function Forms(Props) {
         <Form.Group>
           <Form.Label id="formName">CustomerName:</Form.Label>
           <Form.Control className="required-field" required type="text"
-            placeholder="Enter CustomerName" name="customername" onChange={handleNameChange} />
+            placeholder="Enter CustomerName" name="customername" onChange={(e)=>{handleNameChange(e)}} />
         </Form.Group>
         <br></br>
         <Form.Group>
