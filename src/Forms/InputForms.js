@@ -28,8 +28,6 @@ function Postforms(props) {
   const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit(event) {
-    event.preventDefault();
-console.log("customerDetails",customerDetails)
     const Customerdetails = {
       phoneNumber: customerDetails.phoneNumber,
       customerName: customerDetails.customerName,
