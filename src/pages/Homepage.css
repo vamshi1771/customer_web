@@ -1,0 +1,45 @@
+.cm-products{
+    display: gird;
+    grid-template-columns: auto;
+}
+
+.new-product{
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px;
+    color: #fff !important;
+    background-color: #003865;
+    padding: 8px 8px;
+    margin-left: 60px;
+}
+
+.cm-modify{
+    height: 10vh !important;
+}
+
+.products-dashboard{
+    display:flex;
+    flex-wrap:wrap ; 
+    gap: 40px;
+    margin: 30px 60px;
+    padding-bottom: 60px;
+    
+}
+ 
+.cm-products-footer{
+    --bs-blue-gray-100 : #e5edf4;
+    position: fixed;
+    height:55px;
+    bottom: 0; 
+    padding-bottom: 15px;
+    padding-top: 10px;  
+    border-top: 1px solid;
+    border-color:var(--bs-blue-gray-100);
+    background-color:#fff ;
+    width: 100%;
+}
+
+.cm-products-footer .css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    color: white;
+    background-color: #003865;
+}

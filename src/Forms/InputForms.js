@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Label } from "recharts";
 
 function Postforms(props) {
-
   const initialState = {
     customerName: "",
     region: "",
@@ -22,12 +21,26 @@ function Postforms(props) {
   };
   const [customerDetails, setCustomerDetails] = React.useState(initialState);
 
+  const [Open, setOpen] = useState(false);
   const disPatch = useDispatch();
-  const open = useSelector((state) => state.snackbar);
+  // const open = useSelector((state) => state.snackbar);
 
   const [errorMessage, setErrorMessage] = useState("");
+  const open = useSelector((state) => state.Snackbar);
+  const [isValid,setIsValid] = React.useState(true);
+  const [iserror,setIserror] = React.useState(false)
+  const [errorMsg,setErrorMsg] = React.useState("")
 
-  function handleSubmit(event) {
+  const handleValidate =(Customerdetails) =>{
+    if(customerDetails.customerName === "") return false;
+    if(customerDetails.phoneNumber === "") return false;
+    if(customerDetails.region === "") return false;
+    if(customerDetails.gender === "") return false;
+    if(customerDetails.address === "") return false;
+    return true;
+    
+  }
+  const handleSubmit = async (event) => {
     const Customerdetails = {
       phoneNumber: customerDetails.phoneNumber,
       customerName: customerDetails.customerName,
@@ -36,23 +49,51 @@ function Postforms(props) {
       address: customerDetails.address,
     };
 
-    console.log("Customerdetails", Customerdetails);
+   const isValided = handleValidate(Customerdetails);
+   setIsValid(isValided);
+   if(!isValided) return;
+    //   try {
+    //     const Response = await fetch(`http://localhost:8080/getSearchCustomers/${0}/${5}/${search}`)
+
+    //     if(Response.status===502){
+    //
+    //         }
+    //     else{
+    //     const fetcheddata = await Response.json();
+    //     console.log(fetcheddata);
+    //     setData(fetcheddata.content);
+
+    //      }
+    // }
+    // catch (err) {
+    //
+    // }
+    setOpen(true);
     fetch(`http://localhost:8080/Post`, {
       method: "POST",
       headers: { "Content-type": "Application/Json" },
       body: JSON.stringify(Customerdetails),
     })
-      .then((res) => res.text())
+      .then((res) => res.json())
       .then((data) => {
-        setErrorMessage(data);
-        disPatch(openSnackBar({ message: data, type: "success" }));
+        setOpen(true);
+        setErrorMsg(data.message);
+       if(data.message !== null) setIserror(true);
+        console.log(data);
       })
-      .catch((err) => console.log(err));
-  }
+      .catch((err) => {
+        console.log("err",err)
+        
+
+  });
+    
+    console.log("Customerdetails", Customerdetails);
+   if(!iserror) setCustomerDetails(initialState);
+  };
 
   const handleToClose = (event, reason) => {
     if (reason === "clickaway") return;
-    // setOpen(false);
+    setOpen(false);
     disPatch(closeSnackBar());
   };
 
@@ -77,7 +118,7 @@ function Postforms(props) {
   // };
 
   return (
-    <>
+    <div>
       <div
         className="PostCustomerForm"
         style={{
@@ -97,11 +138,18 @@ function Postforms(props) {
             type="text"
             placeholder="Enter CustomerName"
             name="customername"
+            value={customerDetails.customerName}
             onChange={(event) => {
               handleChange("customerName", event);
             }}
           />
+          {!isValid && customerDetails.customerName === "" && (
+            <span className="cm-xs-txt text-danger fw-medium pt-2">
+              Field required
+            </span>
+          )}
         </div>
+
         <div>
           <label className="d-block mb-1">Region: </label>
           <input
@@ -109,10 +157,16 @@ function Postforms(props) {
             type="text"
             placeholder="Enter Region"
             name="customername"
+            value={customerDetails.region}
             onChange={(event) => {
               handleChange("region", event);
             }}
           />
+          {!isValid &&customerDetails.customerName === "" && (
+            <span className="cm-xs-txt text-danger fw-medium pt-2">
+              Field required
+            </span>
+          )}
         </div>
         <div>
           <label className="d-block mb-1">Gender: </label>
@@ -121,10 +175,16 @@ function Postforms(props) {
             type="text"
             placeholder="Enter gender"
             name="customername"
+            value={customerDetails.gender}
             onChange={(event) => {
               handleChange("gender", event);
             }}
           />
+          {!isValid &&customerDetails.customerName === "" && (
+            <span className="cm-xs-txt text-danger fw-medium pt-2">
+              Field required
+            </span>
+          )}
         </div>
 
         <div>
@@ -134,10 +194,16 @@ function Postforms(props) {
             type="number"
             placeholder="Enter phoneNumber"
             name="customername"
+            value={customerDetails.phoneNumber}
             onChange={(event) => {
               handleChange("phoneNumber", event);
             }}
           />
+          {!isValid &&customerDetails.customerName === "" && (
+            <span className="cm-xs-txt text-danger fw-medium pt-2">
+              Field required
+            </span>
+          )}
         </div>
 
         <div>
@@ -146,16 +212,22 @@ function Postforms(props) {
             className="cm-input-field"
             type="text"
             placeholder="Enter Address"
+            value={customerDetails.address}
             name="customername"
             onChange={(event) => {
               handleChange("address", event);
             }}
           />
+          {!isValid &&customerDetails.customerName === "" && (
+            <span className="cm-xs-txt text-danger fw-medium pt-2">
+              Field required
+            </span>
+          )}
         </div>
       </div>
 
       <Button
-      onClick={handleSubmit}
+        onClick={handleSubmit}
         className="mt-4 PostCustomerButton"
         style={{ display: "block", alignSelf: "center" }}
         id="formButton"
@@ -164,125 +236,18 @@ function Postforms(props) {
         Post customer details
       </Button>
 
-      {/* <Form
-        className="PostCustomerForm"
-        style={{
-          display: "grid",
-          "grid-template-columns": "1fr 1fr",
-          "grid-template-rows": "1fr 1fr",
-          gap: "50px",
-          "font-weight": "500",
-          "font-size": "large",
-          "margin-top": "50px",
-        }}
-        onSubmit={handleSubmit}
-      >
-        <Form.Group>
-          <label className="d-block mb-1">Customer Name: </label>
-          <input
-            className="cm-input-field"
-            required
-            type="text"
-            placeholder="Enter CustomerName"
-            name="customername"
-            onChange={(value) => {
-              handleChange("customerName", value);
-            }}
-          />
-        </Form.Group>
-        <Form.Group>
-          <label className="d-block mb-1">Region: </label>
-          <input
-            className="cm-input-field"
-            required
-            type="text"
-            placeholder="Enter region"
-            name="region"
-            onChange={(e) => {
-              handleChange("Region", e.target.value);
-            }}
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label id="formName">Region:</Form.Label>
-          <Form.Control
-            className="required-field"
-            required
-            type="text"
-            placeholder="Enter Region"
-            name="region"
-            onChange={(e) => {
-              handleChange("Region", e.target.value);
-            }}
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label id="formName">Gender:</Form.Label>
-          <Form.Control
-            className="required-field"
-            required
-            type="text"
-            placeholder="Enter gender"
-            name="gender"
-            onChange={(e) => {
-              handleChange("Gender", e.target.value);
-            }}
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label id="formName">
-            phone Number:<span className="requiredfield">*</span>:
-          </Form.Label>
-          <Form.Control
-            className="has-suffix"
-            required
-            type="text"
-            placeholder="Enter Phone Number"
-            name="customerid"
-            onChange={(e) => {
-              handleChange("phoneNumber", e.target.value);
-            }}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label id="formName">
-            Address:<span className="requiredfield">*</span>:
-          </Form.Label>
-          <Form.Control
-            className="has-suffix"
-            required
-            type="text"
-            placeholder="Enter Address"
-            name="customerid"
-            onChange={(e) => {
-              handleChange("Address", e.target.value);
-            }}
-          ></Form.Control>
-        </Form.Group>
-        <br></br>
-
-        
-
-        <Snackbar
-          open={open.status}
-          autoHideDuration={4000}
+      <Snackbar open={Open} autoHideDuration={6000} onClose={handleToClose}>
+        <Alert
           onClose={handleToClose}
+          severity= {iserror ? "error" : "success"}
+          //error for errors
+          variant="filled"
+          sx={{ width: "100%" }}
         >
-          <Alert
-            onClose={handleToClose}
-            severity={open.message ? "error" : "success"}
-            variant="filled"
-            sx={{ width: "100%" }}
-          >
-            {errorMessage ? open.message : Customer_Registered}
-          </Alert>
-        </Snackbar>
-      </Form> */}
-    </>
+         {iserror ? errorMsg : " Customer Registerd Successfully"}
+        </Alert>
+      </Snackbar>
+</div>
   );
 }
 

@@ -1,0 +1,55 @@
+.cm-product-box{
+    background-color: white;
+    width: 190px;
+    height: 300px;
+    border-radius: 8px;
+}
+
+.cm-product-box .mercerLogo{
+    height: calc(60%);
+    width: calc(100% - 10px);
+    padding-bottom: 10px;
+
+}
+
+.cm-product-name{
+    font-weight: 700;
+}
+
+.box-font{
+    font-family: Lato;
+    font-size: 16px;
+    line-height: 1.425;
+    color: rgb(117, 140, 141);
+    font-weight: 400;
+}
+
+.cm-submit-btn{
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px;
+    color: #fff !important;
+    background-color: #003865;
+    padding: 8px 8px;
+    
+}
+
+.css-1tuh7nu {
+    background-color: rgb(255, 255, 255);
+    color: rgb(221, 221, 221);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    padding: 10px 20px;
+    border-radius: 0px;
+    box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 18px 6px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    border-radius: 4px;
+}
+
+.product-box-footer{
+    margin-left: 60px;
+}
+

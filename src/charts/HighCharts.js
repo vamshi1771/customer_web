@@ -10,7 +10,7 @@ function HighChrts(){
     useEffect(()=>{
         const fetchData=async()=>{
             try{
-                const response=await fetch(`http://localhost:8080/getAllCustomersRegions`);
+                const response=await fetch(`http://localhost8080/getAllCustomersRegions`);
                 const data=await response.json();
  
                 const freqMap={};

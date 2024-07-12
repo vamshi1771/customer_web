@@ -10,21 +10,24 @@ import { Link } from "react-router-dom";
 const Vamshi=()=>
 {
 	return (
-		<div>
-			<Navbar  id="innernavbar" expand="lg" >
-      <Container>
-          <Nav className="me-auto" >
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <NavDropdown title="POST" id="basic-nav-dropdown">
-              <NavDropdown.Item className="dropdown" as={Link} to="/PostCustomer">post customer details</NavDropdown.Item>
-              <NavDropdown.Item className="dropdown" as={Link} to="/PostOrders">
-                Post Orders details
-              </NavDropdown.Item>
+		<div className="d-flex align-items-center bg-primary">
+        <span className="ms-4 logo-name"> ProdFlow </span>
+        <div className="cm-header-logo-separator bg-blue-gray-700 my-0 ms-4 d-block"></div>
+			<Navbar expand="lg" >
+      <Container className="ms-2">
+          <Nav className="me-auto nav-item" >
+            <Nav.Link className="fw-semibold navbar-item" as={Link} to="/">Home</Nav.Link>
+            <NavDropdown className="fw-semibold" title="Customers" id="basic-nav-dropdown">
+              <NavDropdown.Item className="dropdown" as={Link} to="/PostCustomer">Add a customer</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/GetCustomers">All customers</NavDropdown.Item>
+              
             </NavDropdown>
-            <NavDropdown title="GET" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/GetCustomers">GET customer details</NavDropdown.Item>
+            <NavDropdown className="fw-semibold" title="Orders" id="basic-nav-dropdown">
+            <NavDropdown.Item className="dropdown" as={Link} to="/PostOrders">
+                Add a order
+              </NavDropdown.Item>
               <NavDropdown.Item href="/GetOrders">
-              GET order details
+              All Orders
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>

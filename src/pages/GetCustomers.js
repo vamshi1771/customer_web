@@ -106,9 +106,14 @@ function GetCustomers() {
 
 
 
-    const fetchdata = async () => {
+    const fetchdata = async() => {
+        const body = {
+            method: "GET",
+            headers: { "Content-type": "Application/Json" },
+          };
+        
         try {
-            const Response = await fetch(`http://localhost:8080/getAllCustomerInPages/${current}/${5}`)
+            const Response = await fetch(`http://localhost8080/getAllCustomerInPages/${current}/${5}`,body)
             const fetcheddata = await Response.json();
             setData(fetcheddata.content);
             setCount(fetcheddata.totalPages);
