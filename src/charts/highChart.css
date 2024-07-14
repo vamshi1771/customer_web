@@ -1,0 +1,14 @@
+.cm-event-highchart{
+    height: 325px;
+    max-width: 800px;
+    min-width: 320px;
+    --bs-blue-gray-100 : #c5d3de;
+    --bs-blue-gray-50-rgb: 248, 250, 252;
+  border: 1px solid var();
+  border: 1px solid var(--bs-blue-gray-100);
+  border-top: 0px solid var(--bs-blue-gray-100) ;
+}
+.highcharts-container{
+    height: 300px !important;
+    width: 700px !important;
+}

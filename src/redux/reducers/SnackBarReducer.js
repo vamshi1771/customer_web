@@ -4,8 +4,9 @@ import { SNACK_CLOSE,SNACK_OPEN } from "../types/sanckBarTypes";
 
 export const INITIAL_STATE={
     type:'',
-    status:false,
-    message:''
+    open :false,
+    severity :'',
+    message:'',
 }
 
 const snackbarReducer=(state= INITIAL_STATE, action)=>{
@@ -13,7 +14,9 @@ const snackbarReducer=(state= INITIAL_STATE, action)=>{
         case SNACK_OPEN:
             return{
                 ...action.payload,
-               status:true,
+                open:true,
+               severity:action.payload.severity,
+               message :action.payload.message,
             }
             case SNACK_CLOSE:
             return{

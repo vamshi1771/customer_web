@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Forms from "../Forms/Forms";
 import Location from "../components/Location";
 import DateAndLocation from "../components/DateAndLocation";
 import { MercerLogo } from "../variables-urls/ImageUrls";
 import Productbox from "../products/productbox";
 import BasicModal from "../products/AddProductModal";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import MuiPagination from "../components/Pagination";
 import "../App.css";
 import "./Homepage.css";
 import "../styles/HomePage.css";
@@ -37,7 +36,7 @@ function Home() {
     };
     try {
       const res = await fetch(
-        `http://localhost:8080/getAllProducts/${pageIndex}/${20}`,
+        `http://localhost:8090/getAllProducts/${pageIndex}/${12}`,
         body
       );
       const response = await res.json();
@@ -45,17 +44,15 @@ function Home() {
       setProductData(response.content);
       setProductsPageData({
         ...productspageData,
-        pageCount : response.totalPages,
-        pageIndex : response.pageable.pageNumber
+        ["pageCount"] : response.totalPages,
+        ["pageIndex"] : response.pageable.pageNumber
     })
     } catch (err) {
       console.log(err);
     }
   };
-
-  const handlePageChange = (e,pageIndex) =>{
-    console.log("pageNumber",pageIndex)
-    if(pageIndex-1 != productspageData.pageIndex ) getAllProducts(pageIndex-1);
+  const handlePageChange = (event,pageIndex) =>{
+    if(event-1 != productspageData.pageIndex ) getAllProducts(event-1);
   } 
   React.useEffect(() => {
     getAllProducts();
@@ -75,44 +72,10 @@ function Home() {
       <BasicModal modalStatus={modalStatus} modalData = {modalData} setModalStatus={handleToggle} />
      { productsData &&  <div className="products-dashboard mb-4 ">{loadProducts}</div>}
       <div className="cm-products-footer ">
-        <Stack spacing={2}>
-          <Pagination count={productspageData.pageCount}  page={productspageData.pageIndex+1} onChange={(event, pageNumber) => handlePageChange(event, pageNumber)} variant="outlined" shape="rounded" />
-        </Stack>
+        <MuiPagination pageCount={productspageData.pageCount} pageIndex = {productspageData.pageIndex+1} onChange = {(event,pagenumber) => handlePageChange(event,pagenumber)}/>
       </div>
     </div>
-
-    // <div className="container" id='HomeMaindiv' style={{
-    // 		'font-weight': '500', 'font-size': 'large', 'display': 'grid',
-    // 			'grid-template-columns': '1fr 1fr', 'padding': '30px', 'gap': '40px'}}
-    // >
-    // 	{/* <Forms id="forms" ></Forms> */}
-    // 	<div className="abc">
-    // 		{/* <img className="mercerLogo" src={`${MercerLogo}`} alt='This is image' style={{ height: '40vh', margin: '0px', 'padding-top': '0px', width: '100vh', opacity: 0.5, }} /> */}
-    // 		{/* <div className="LocationAndTime" style={{ 'grid-area': 'footer', display: 'flex', 'margin-top': '50px', 'margin-left': '200px', alignSelf: 'end', gap: '70px', color: 'white', position: 'relative' }}>
-    // 			<Location id="location" />
-    // 			<DateAndLocation id="date" />
-    // 		</div> */}
-    // 	</div>
-    // </div>
   );
 }
 
 export default Home;
-
-{
-  /* <div className="container" style={{
-			'font-weight': '500', 'font-size': 'large', 'display': 'grid', 'grid-template-rows': 'auto 1fr',
-			'grid-template-columns': '1fr 1fr', 'grid-temolate-areas': "left right footer footer"
-		}}>
-			<Forms id="forms" style={{ 'display': 'inline', 'grid-area': 'left' }}></Forms>
-			<div>
-				<img src='https://assetsprelogin.mettl.com/_next/image/?url=%2Fassets%2Flogo%2FMercer-Mettl.svg&w=640&q=75' alt='This is image' style={{ height: '70vh', width: '80vh', 'position': 'absolute', opacity: 0.5, 'grid-area': 'top', 'margin-bottom': '0', 'margin-left': 650 }} />
-			<div style={{ 'grid-area': 'footer', display: 'flex', gap: '70px', color: 'white', position: 'relative' }}>
-				<Location id="location" />
-				<DateAndLocation id="date" />
-			</div>
-			</div>
-
-
-		</div> */
-}

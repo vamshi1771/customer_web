@@ -4,10 +4,14 @@ import Form from "react-bootstrap/Form";
 import "../index.css";
 import "../App.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Snackbar } from "@mui/material";
+import { Menu, MenuList, Snackbar } from "@mui/material";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import { or } from "ajv/dist/compile/codegen";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { MenuItem } from '@mui/material'
+import SnackBar from "../components/SnackBar";
 
 function OrdersForms(Props) {
   const [Open, setOpen] = useState(false);
@@ -16,15 +20,16 @@ function OrdersForms(Props) {
   const [Price, setPrice] = useState("");
   const [CustId, setCustId] = useState("");
   const [noOfProducts, setNoOfProducts] = React.useState("");
-  const [iserror,setIserror] = React.useState(false)
-
-  const [orderdetails, setOrderDetails] = React.useState({
-    customerName: "",
-    productId: null,
+  const [iserror, setIserror] = React.useState(false);
+  const [customerOptions,setCustomerOptions] = React.useState(null);
+  const [productOptions,setProductOPtions] = React.useState(null);
+  const initialState = {
+    customerId: "",
+    productId: "",
     price: "",
-    customerId: null,
-    numberOfProducts: null,
-  });
+    numberOfProducts: '',
+  }
+  const [orderdetails, setOrderDetails] = React.useState(initialState);
 
   const open = useSelector((state) => state.Snackbar);
 
@@ -34,15 +39,44 @@ function OrdersForms(Props) {
     if (orderdetails.customerName === "") return false;
     if (orderdetails.productId === "") return false;
     if (orderdetails.price === "") return false;
-    if (orderdetails.customerId === "") return false;
     if (orderdetails.numberOfProducts === "") return false;
     return true;
   };
 
-  const [errorMsg,setErrorMsg] = React.useState("")
+  const setcustomersProducts = (customersProduct,productOption) =>{
+      const customerOptions =  customersProduct.map((item) => {
+        return {label : item.customerName , id : item.customerId}
+      })
+      setCustomerOptions(customerOptions);
+      const productOptions = productOption.map((item) => {
+        return {label : item.productName , id : item.productId}
+      })
+      setProductOPtions(productOptions);
+    
+  }
+
+  const [errorMsg, setErrorMsg] = React.useState("");
   function handleSubmit(event) {
     event.preventDefault();
+  }
 
+  React.useEffect(() => {
+    getCustomerAndProducts();
+    
+  }, []);
+
+  const getCustomerAndProducts = () => {
+    fetch(`http://localhost:8090/getCustomersAndProducts`, {
+      method: "GET",
+      headers: { "Content-type": "Application/Json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setcustomersProducts(data.customersList,data.productLists);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
 
   const handleButtonSubmit = () => {
@@ -52,24 +86,26 @@ function OrdersForms(Props) {
     setIsValid(isValided);
     if (!isValided) return;
 
-    fetch(`http://localhost:8080/saveOrder`, {
+    fetch(`http://localhost:8090/saveOrder`, {
       method: "POST",
       headers: { "Content-type": "Application/Json" },
       body: JSON.stringify(orderdetails),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.ok) disPatch({severity:"success",message:"Orders Registered Successfully"})
+        res.json();
+      })
       .then((data) => {
         setOpen(true);
         setErrorMsg(data.message);
-       if(data.message !== null) setIserror(true);
-        console.log(data);
+      if(data.message != "")  disPatch({severity:"error",message:data.message})
       })
       .catch((err) => {
-        console.log("err",err)
-        
-
-  });
-  }
+        console.log("err", err);
+        disPatch({severity:"error",message:err.message})
+      });
+      setOrderDetails(initialState);
+  };
 
   const handleToClose = (event, reason) => {
     if (reason === "clickaway") return;
@@ -85,6 +121,7 @@ function OrdersForms(Props) {
     });
   };
 
+
   const handleNameChange = (e) => {
     const search = e.target.value;
     const ans = search.trim();
@@ -97,6 +134,25 @@ function OrdersForms(Props) {
     temp = temp.trim();
     setOrderName(temp);
   };
+  const handleMuiChange = (e,value,id,reason) =>{
+    console.log("value",value)
+    if(reason === 'clear'){
+      setOrderDetails({
+        ...orderdetails,
+        [id] : "",
+      })
+    }
+    else{
+    setOrderDetails({
+      ...orderdetails,
+      [id] : value.id,
+    })
+  }
+  }
+
+const loadOptions = () =>{
+
+}
 
   return (
     <div>
@@ -114,15 +170,14 @@ function OrdersForms(Props) {
       >
         <div>
           <label className="d-block mb-1">Customer Name: </label>
-          <input
-            className="cm-input-field"
-            type="text"
-            placeholder="Enter CustomerName"
-            name="customername"
-            value={orderdetails.customerName}
-            onChange={(event) => {
-              handleChange("customerName", event);
-            }}
+          <Autocomplete
+            disablePortal
+            className="cm-auto-complete"
+            id="combo-box-demo"
+            options={customerOptions!= null && customerOptions.map((item)=> item)}
+            sx={{ width: 300 }}
+            onChange={(event,value,reason)=>handleMuiChange(event,value,"customerId",reason)}
+            renderInput={(params) => <TextField {...params} />}
           />
           {!isValid && orderdetails.customerName === "" && (
             <span className="cm-xs-txt text-danger fw-medium pt-2">
@@ -132,8 +187,8 @@ function OrdersForms(Props) {
         </div>
 
         <div>
-          <label className="d-block mb-1">product Id: </label>
-          <input
+          <label className="d-block mb-1">Product Name: </label>
+          {/* <input
             className="cm-input-field"
             type="Number"
             placeholder="Enter product Id"
@@ -142,6 +197,15 @@ function OrdersForms(Props) {
             onChange={(event) => {
               handleChange("productId", event);
             }}
+          /> */}
+          <Autocomplete
+            disablePortal
+            className="cm-auto-complete"
+            id="combo-box-demo"
+            options={productOptions!= null && productOptions.map((item)=> item)}
+            sx={{ width: 300 }}
+            onChange={(event,value,reason)=>handleMuiChange(event,value,"productId",reason)}
+            renderInput={(params) => <TextField {...params} />}
           />
           {!isValid && orderdetails.productId === null && (
             <span className="cm-xs-txt text-danger fw-medium pt-2">
@@ -168,7 +232,7 @@ function OrdersForms(Props) {
           )}
         </div>
 
-        <div>
+        {/* <div>
           <label className="d-block mb-1">customer Id : </label>
           <input
             className="cm-input-field"
@@ -185,7 +249,7 @@ function OrdersForms(Props) {
               Field required
             </span>
           )}
-        </div>
+        </div> */}
 
         <div>
           <label className="d-block mb-1">Number of products Ordered : </label>
@@ -216,17 +280,6 @@ function OrdersForms(Props) {
       >
         Post Order details
       </Button>
-
-      <Snackbar open={Open} autoHideDuration={6000} onClose={handleToClose}>
-        <Alert
-          onClose={handleToClose}
-          severity= {iserror ? "error" : "success"}
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          {errorMsg}
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

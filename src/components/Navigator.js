@@ -19,7 +19,7 @@ const Vamshi=()=>
             <Nav.Link className="fw-semibold navbar-item" as={Link} to="/">Home</Nav.Link>
             <NavDropdown className="fw-semibold" title="Customers" id="basic-nav-dropdown">
               <NavDropdown.Item className="dropdown" as={Link} to="/PostCustomer">Add a customer</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/GetCustomers">All customers</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/customer-details">All customers</NavDropdown.Item>
               
             </NavDropdown>
             <NavDropdown className="fw-semibold" title="Orders" id="basic-nav-dropdown">

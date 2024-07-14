@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const style = {
     position: 'absolute',
@@ -33,7 +34,6 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
             ["price"] : modalData.price ?  modalData.price : "",
             ["quantity"] : modalData.quantity ?  modalData.quantity : "",
         })
-        console.log("I am in edit or not",)
         setEdit(modalData.productName ? true : false);
     },[modalData])
     const [productDetails, setProductdetails] = React.useState(initialState);
@@ -64,7 +64,7 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
         formData.append("image", photo)
         if (!edit) {
         try {
-                const res = await fetch(`http://localhost:8080/saveProduct/${productDetails.productName}/${productDetails.price}/${productDetails.quantity}`, {
+                const res = await fetch(`http://localhost:8090/saveProduct/${productDetails.productName}/${productDetails.price}/${productDetails.quantity}`, {
                     method: "POST",
                     body: formData
                 })
@@ -76,7 +76,7 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
     }
     else{
         try{
-        const res = await fetch(`http://localhost:8080/updateProduct/${productDetails.productName}/${productDetails.price}/${productDetails.quantity}/${modalData.productId}`, {
+        const res = await fetch(`http://localhost:8090/updateProduct/${productDetails.productName}/${productDetails.price}/${productDetails.quantity}/${modalData.productId}`, {
             method: "POST",
             body: formData
         }) 

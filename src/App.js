@@ -14,6 +14,7 @@ import HighChrts from "./charts/HighCharts";
 import { MercerLogo } from "./variables-urls/ImageUrls";
 import { useDispatch, useSelector } from "react-redux";
 import { darkmode, lightMode } from "./redux/actions/DarkModeactions";
+import SnackBar from "./components/SnackBar";
 export const ThemeContext = createContext(null);
 function App() {
   const dispatch = useDispatch();
@@ -39,15 +40,14 @@ function App() {
               <Vamshi></Vamshi>
             </div>
           </div>
-            {/* <img src={`${MercerLogo}`} style={{ height: '10vh', 'margin-right': '30px', 'padding-top': '0px', width: '50vh', minWidth: '10vh' }}></img> */}
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/PostCustomer" element={<PostCustomer />}></Route>
-          <Route path="/GetCustomers" element={<GetCustomers />}></Route>
+          <Route path="/customer-details" element={<GetCustomers />}></Route>
           <Route path="/PostOrders" element={<PostOrders />}></Route>
           <Route path="/GetOrders" element={<GetOrders />}></Route>
-          <Route path="/Piechart" element={<HighChrts />}></Route>
         </Routes>
+        <SnackBar/>
       </div>
   );
 }
