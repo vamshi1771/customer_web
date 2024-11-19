@@ -1,8 +1,20 @@
 .cm-product-box{
-    background-color: white;
-    width: 190px;
+    /* background-color: white;
+    width: 220px;
     height: 300px;
-    border-radius: 8px;
+    border-radius: 8px; */
+    height: 357px;
+    width: 321px;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border: 2px solid #f3f3f3;
+    box-shadow: 5px 4px 29px #1685844a;
+    border-radius: 10px;
+
+}
+.cm-product-box:hover{
+    z-index: 1;
 }
 
 .cm-product-box .mercerLogo{
@@ -51,5 +63,14 @@
 
 .product-box-footer{
     margin-left: 60px;
+}
+
+#modal-modal-title{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cm-add-product-box{
+    border-radius: 8px !important;
 }
 

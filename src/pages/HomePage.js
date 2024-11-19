@@ -27,6 +27,9 @@ function Home() {
   const handleToggle = (element=null) => {
     setModalStatus(!modalStatus);
    if(!modalStatus) setModalData(element);
+   else {
+    setModalStatus(false);
+   }
   };
 
   const getAllProducts = async (pageIndex = 0) => {

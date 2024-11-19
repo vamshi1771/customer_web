@@ -35,10 +35,8 @@ function App() {
   }
   return (
     <div className="cm-main-page" >    
-          <div>
-            <div>
+          <div className="cm-event-navibar">
               <Vamshi></Vamshi>
-            </div>
           </div>
         <Routes>
           <Route path="/" element={<Home />}></Route>

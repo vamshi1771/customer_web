@@ -111,7 +111,7 @@ function GetOrders() {
         <div className="mt-5">
 
             <div className="mt-5">
-                <div className="ms-4 cm-home-top">
+                <div className="ms-3 cm-home-top">
                     <div className="ms-4">
                         <p className="my-0 cm-sm-txt fw-semibold text-blue-gray-700 cm-home-dash-widget-header bg-blue-gray-50 d-flex align-items-center justify-content-between py-3 px-4">
                             Product usage
@@ -170,7 +170,7 @@ function GetOrders() {
                             </TableCell>
                             <TableCell className="text-blue-gray-700" align="center">
                                 {" "}
-                                Customer Name
+                                Ordered By
                             </TableCell>
                             <TableCell className="text-blue-gray-700" align="center">
                                 {" "}

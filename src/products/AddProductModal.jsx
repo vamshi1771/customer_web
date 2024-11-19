@@ -3,8 +3,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import Autocomplete from '@mui/material/Autocomplete';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import "./productBox.css";
+import { openSnackBar } from '../redux/actions/snackbaractions';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -27,6 +30,7 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
         price: modalData ? modalData.price : "",
         quantity: modalData ? modalData.quantity : "",
     }
+    const disPatch = useDispatch();
     React.useEffect(()=>{
         setProductdetails({
             ...productDetails,
@@ -59,7 +63,10 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
 
     const handleSubmit = async () => {
 
-        if (photo === null) return;
+        if (photo === null) {
+            disPatch(openSnackBar({severity:"error",message:"please add a photo"}));
+           return;
+        }
         const formData = new FormData();
         formData.append("image", photo)
         if (!edit) {
@@ -68,10 +75,17 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
                     method: "POST",
                     body: formData
                 })
+                if(res.ok){
+                    disPatch(openSnackBar({severity: "success", message: "Product Registred Succesfully" }))
+                }
+               else{
+                disPatch(openSnackBar({severity: "error", message: "Something went wrong" }))
+               }
             }
 
         catch (err) {
             console.log(err)
+            disPatch(openSnackBar({severity: "error", message: err }))
         }
     }
     else{
@@ -80,9 +94,16 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
             method: "POST",
             body: formData
         }) 
+        if(res.ok){
+            disPatch(openSnackBar({severity: "success", message: "Product Updated Succesfully" }))
+        }
+       else{
+        disPatch(openSnackBar({severity: "error", message: "Something went wrong" }))
+       }
     }
     catch (err) {
         console.log(err)
+        disPatch(openSnackBar({severity: "error", message: err }))
     }
 
     setModalStatus();
@@ -90,7 +111,7 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
 }
 
     return (
-        <div>
+        <div className='cm-add-product-box border-neutral-900'>
             <Modal
                 open={modalStatus}
                 onClose={setModalStatus}
@@ -99,9 +120,10 @@ export default function BasicModal({ modalStatus, setModalStatus, modalData }) {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" className='text-blue-gray-700'>
-                        Register A New Product
+                      <>  Register New Product  <FontAwesomeIcon className="cm-pointer"  onClick={setModalStatus} icon={faXmark} /></>
+                       
                     </Typography>
-                    <Button onClick={setModalStatus}> Close</Button>
+                    
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <div>
                             <label>Product Name :</label>

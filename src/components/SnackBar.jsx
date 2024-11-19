@@ -3,6 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useDispatch, useSelector } from "react-redux";
 import { closeSnackBar } from "../redux/actions/snackbaractions";
+import "../App.css";
 
 
 const SnackBar = () => {
@@ -21,7 +22,7 @@ const SnackBar = () => {
 
     return (
         <>
-            <Snackbar open={open} sx={{ width: "100%" }}
+            <Snackbar className="cm-snackbar" open={open} sx={{ width: "100%" }}
                     anchorOrigin={{
                        vertical: "top",
                        horizontal: "center"
@@ -31,7 +32,7 @@ const SnackBar = () => {
                     
                     severity={severity}
                     variant="filled"
-                    TransitionComponent="Fade"
+                    transitioncomponent="Fade"
                 >
                     {message}
                 </Alert>

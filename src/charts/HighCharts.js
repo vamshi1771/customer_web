@@ -8,28 +8,14 @@ import "./highChart.css"
 function HighChrts({Data}){
     const[chartOption,setChartOption]=useState({});
     const [chartData,setChartData] =React.useState(Data);
-
-    // const fetchData=async()=>{
-    //     try{
-    //         const response=await fetch(`http://localhost:8090/getAllCustomersRegions`);
-    //         const data=await response.json();
-    //         handleSetsiderData(data);
-    //         setChartData(data.regions);
-    //         configureChart(data.regions);
-    //     }
-    //     catch(error){
-    //         console.log(error);
-    //     }
-    // };
     useEffect(()=>{
       if(Data!=null) configureChart(Data)
     },[Data]);
-
+ 
   
   
 
     const configureChart = (Data) =>{
-
         const freqMap={};
         Data.forEach(region=>{
             freqMap[region]=(freqMap[region] || 0)+1;

@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { MenuItem } from '@mui/material'
 import SnackBar from "../components/SnackBar";
+import { openSnackBar } from "../redux/actions/snackbaractions";
 
 function OrdersForms(Props) {
   const [Open, setOpen] = useState(false);
@@ -31,7 +32,6 @@ function OrdersForms(Props) {
   }
   const [orderdetails, setOrderDetails] = React.useState(initialState);
 
-  const open = useSelector((state) => state.Snackbar);
 
   const disPatch = useDispatch();
   const [isValid, setIsValid] = React.useState(true);
@@ -79,31 +79,49 @@ function OrdersForms(Props) {
       });
   };
 
-  const handleButtonSubmit = () => {
+  const handleButtonSubmit =async() => {
     // disPatch(SNACK_OPEN());
 
     const isValided = handleValidate(orderdetails);
     setIsValid(isValided);
     if (!isValided) return;
 
-    fetch(`http://localhost:8090/saveOrder`, {
-      method: "POST",
-      headers: { "Content-type": "Application/Json" },
-      body: JSON.stringify(orderdetails),
-    })
-      .then((res) => {
-        if(res.ok) disPatch({severity:"success",message:"Orders Registered Successfully"})
-        res.json();
+    try {
+      const res = await fetch(`http://localhost:8090/saveOrder`, {
+        method: "POST",
+        headers: { "Content-type": "Application/Json" },
+        body: JSON.stringify(orderdetails),
       })
-      .then((data) => {
-        setOpen(true);
-        setErrorMsg(data.message);
-      if(data.message != "")  disPatch({severity:"error",message:data.message})
-      })
-      .catch((err) => {
-        console.log("err", err);
-        disPatch({severity:"error",message:err.message})
-      });
+      let iscorrect =false
+      if (res.ok){
+        console.log("logged") 
+        iscorrect = true;
+        disPatch(openSnackBar({ severity: "success", message: "Order Registered Successfully" }))}
+        else {
+          disPatch(openSnackBar({ severity: "error", message: "products out of Stock/less stocks available" }))}
+        }
+    catch(err){
+      console.log("err", err)
+      disPatch(openSnackBar({ severity: "error", message: err.message }))
+    }
+    // fetch(`http://localhost:8090/saveOrder`, {
+    //   method: "POST",
+    //   headers: { "Content-type": "Application/Json" },
+    //   body: JSON.stringify(orderdetails),
+    // })
+    //   .then((res) => {
+    //     if(res.ok) disPatch(openSnackBar({severity:"success",message:"Orders Registered Successfully"}))
+    //     res.json();
+    //   })
+    //   .then((data) => {
+    //     setOpen(true);
+    //     setErrorMsg(data.message);
+    //   if(data.message != "")  disPatch(openSnackBar({severity:"error",message:data.message}))
+    //   })
+    //   .catch((err) => {
+    //     console.log("err", err);
+    //     disPatch(openSnackBar({severity:"error",message:err.message}))  
+    //   });
       setOrderDetails(initialState);
   };
 
@@ -231,25 +249,6 @@ const loadOptions = () =>{
             </span>
           )}
         </div>
-
-        {/* <div>
-          <label className="d-block mb-1">customer Id : </label>
-          <input
-            className="cm-input-field"
-            type="Number"
-            placeholder="Enter customer Id "
-            name="customername"
-            value={orderdetails.customerId}
-            onChange={(event) => {
-              handleChange("customerId", event);
-            }}
-          />
-          {!isValid && orderdetails.customerId === null && (
-            <span className="cm-xs-txt text-danger fw-medium pt-2">
-              Field required
-            </span>
-          )}
-        </div> */}
 
         <div>
           <label className="d-block mb-1">Number of products Ordered : </label>

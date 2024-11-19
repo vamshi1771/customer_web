@@ -83,7 +83,7 @@ function GetCustomers() {
   }
 
   const fetchdata = (pageIndex = 0) => {
-    fetch(`http://localhost:8090/getAllCustomerInPages/${pageIndex}/${4}`, {
+    fetch(`http://localhost:8090/getAllCustomerInPages/${pageIndex}/${5}`, {
       method: "GET",
       headers: { "Content-type": "Application/Json" },
     })
@@ -112,7 +112,7 @@ function GetCustomers() {
 
   return (
     <div className="mt-5">
-      <div className="ms-4 cm-home-top">
+      <div className="ms-3 cm-home-top">
         <div className="ms-4">
           <p className="my-0 cm-sm-txt fw-semibold text-blue-gray-700 cm-home-dash-widget-header bg-blue-gray-50 d-flex align-items-center justify-content-between py-3 px-4">
             Customer Regions

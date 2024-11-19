@@ -122,6 +122,17 @@ background-color: #009de0;
   border-radius: 4px;
   min-width: 200px; 
  }
+
+ .cm-event-navibar{
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+ }
+ .cm-snackbar{
+ margin-top: 3.5em;
+ }  
+
+ 
  
 
 
@@ -315,6 +326,11 @@ background-color: #009de0;
     list-style: none;
     margin-bottom: 0;
     padding-left: 0;
+}
+
+.cm-pointer{
+  cursor: pointer;
+
 }
 
 .navbar-item:active{
