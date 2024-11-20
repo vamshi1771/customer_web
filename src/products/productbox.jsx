@@ -8,7 +8,7 @@ const Productbox = ({data,handleToggle}) =>{
 
 
     return (
-        <div className="cm-product-box bg-white css-1tuh7nu">
+        <div className="cm-product-box bg-white css-1tuh7nu on-hover-scale">
             <img className="ms-2 mercerLogo" src={data.photoUrl} alt='This is image' />
             <label className="text-blue-gray-700 fw-semibold  border-bottom align-self-center">{data.productName}</label>
             <p className="cm-xs-txt text-blue-gray-700 mb-1 d-flex justify-content-between align-items-center"> <span>Price :</span> <span>{data.price}/-</span></p> 

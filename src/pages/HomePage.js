@@ -68,7 +68,7 @@ function Home() {
   return (
     <div className="mt-4 cm-products ">
       <div className="mb-4">
-        <span onClick={handleToggle} className="new-product">
+        <span onClick={handleToggle} className="cm-add-product">
           + Add Product
         </span>
       </div>  
