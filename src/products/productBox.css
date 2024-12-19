@@ -1,8 +1,4 @@
 .cm-product-box{
-    /* background-color: white;
-    width: 220px;
-    height: 300px;
-    border-radius: 8px; */
     height: 357px;
     width: 321px;
     position: relative;
@@ -11,9 +7,6 @@
     border: 2px solid #f3f3f3;
     box-shadow: 5px 4px 29px #1685844a;
     border-radius: 10px;
-}
-.cm-product-box:hover{
-    z-index: 1;
 }
 
 .cm-product-box .mercerLogo{

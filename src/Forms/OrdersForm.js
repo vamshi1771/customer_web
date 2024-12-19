@@ -104,24 +104,6 @@ function OrdersForms(Props) {
       console.log("err", err)
       disPatch(openSnackBar({ severity: "error", message: err.message }))
     }
-    // fetch(`http://localhost:8090/saveOrder`, {
-    //   method: "POST",
-    //   headers: { "Content-type": "Application/Json" },
-    //   body: JSON.stringify(orderdetails),
-    // })
-    //   .then((res) => {
-    //     if(res.ok) disPatch(openSnackBar({severity:"success",message:"Orders Registered Successfully"}))
-    //     res.json();
-    //   })
-    //   .then((data) => {
-    //     setOpen(true);
-    //     setErrorMsg(data.message);
-    //   if(data.message != "")  disPatch(openSnackBar({severity:"error",message:data.message}))
-    //   })
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //     disPatch(openSnackBar({severity:"error",message:err.message}))  
-    //   });
       setOrderDetails(initialState);
   };
 
@@ -277,7 +259,7 @@ const loadOptions = () =>{
         type="submit"
         onClick={handleButtonSubmit}
       >
-        Post Order details
+        Book Order
       </Button>
     </div>
   );
